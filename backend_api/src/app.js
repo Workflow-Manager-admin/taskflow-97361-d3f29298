@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const routes = require('./routes');
@@ -7,6 +8,7 @@ const swaggerSpec = require('../swagger');
 // Initialize express app
 const app = express();
 
+// CORS configuration
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],

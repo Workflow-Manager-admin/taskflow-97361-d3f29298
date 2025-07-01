@@ -4,10 +4,34 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'My Express API',
+      title: 'TaskVerse API',
       version: '1.0.0',
-      description: 'A simple Express API documented with Swagger',
-    }
+      description: 'TaskVerse Kanban Board API - A comprehensive REST API for managing personal tasks with a Kanban board interface, featuring user authentication, task management, and drag-and-drop functionality.',
+      contact: {
+        name: 'TaskVerse API Support',
+        email: 'support@taskverse.com'
+      }
+    },
+    servers: [
+      {
+        url: 'http://localhost:3001',
+        description: 'Development server'
+      }
+    ],
+    tags: [
+      {
+        name: 'Health',
+        description: 'Health check endpoints'
+      },
+      {
+        name: 'Authentication',
+        description: 'User authentication and authorization'
+      },
+      {
+        name: 'Tasks',
+        description: 'Task management operations'
+      }
+    ]
   },
   apis: ['./src/routes/*.js'], // Path to the API docs
 };
