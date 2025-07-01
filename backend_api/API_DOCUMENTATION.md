@@ -6,7 +6,7 @@ TaskVerse is a comprehensive REST API for managing tasks with a Kanban board int
 ## Features Implemented
 - ✅ Complete task CRUD operations
 - ✅ Drag-and-drop task reordering between columns
-- ✅ PostgreSQL database integration
+- ✅ In-memory storage (no database required)
 - ✅ Comprehensive input validation using Joi
 - ✅ Error handling with proper HTTP status codes
 - ✅ Complete Swagger/OpenAPI documentation
@@ -25,46 +25,23 @@ TaskVerse is a comprehensive REST API for managing tasks with a Kanban board int
 ### Health Check
 - `GET /` - Service health check
 
-## Database Schema Requirements
-The API expects the following PostgreSQL tables:
+## Data Storage
+The API uses in-memory storage with the following structure:
 
-### columns
-```sql
-CREATE TABLE columns (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    position INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
-);
-```
+### Columns
+- Default columns: "To Do", "In Progress", "Done"
+- Each column has: id, name, position, created_at
+- Columns are automatically initialized on startup
 
-### tasks
-```sql
-CREATE TABLE tasks (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(200) NOT NULL,
-    description TEXT DEFAULT '',
-    priority VARCHAR(20) DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
-    due_date TIMESTAMP NULL,
-    completed BOOLEAN DEFAULT FALSE,
-    position INTEGER NOT NULL,
-    column_id INTEGER REFERENCES columns(id) ON DELETE CASCADE,
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
-);
-```
+### Tasks
+- Each task has: id, title, description, priority, due_date, completed, position, column_id, created_at, updated_at
+- Tasks are stored in memory and organized by columns
+- Sample tasks are created on startup for demonstration
 
 ## Environment Variables
-The following environment variables must be configured:
+The following environment variables are optional:
 
 ```env
-# Database Configuration
-POSTGRES_URL="postgresql://localhost:5000/myapp"
-POSTGRES_USER="appuser"
-POSTGRES_PASSWORD="dbuser123"
-POSTGRES_DB="myapp"
-POSTGRES_PORT="5000"
-
 # Application Configuration
 NODE_ENV="development"
 PORT="3001"
@@ -89,9 +66,9 @@ HOST="0.0.0.0"
 - `npm test` - Run tests (to be implemented)
 
 ## Security Features
-- SQL injection prevention using parameterized queries
-- Input validation on all endpoints
+- Input validation on all endpoints using Joi schemas
 - CORS configuration for cross-origin requests
+- In-memory storage eliminates SQL injection risks
 
 ## Error Handling
 All endpoints return consistent error responses:
@@ -114,4 +91,4 @@ All successful operations return:
 ```
 
 ## Next Steps
-The API is fully functional and ready for integration with frontend applications. All task management and database operations are implemented and publicly accessible without authentication requirements.
+The API is fully functional and ready for integration with frontend applications. All task management operations use in-memory storage and are publicly accessible without authentication requirements. Data is reset on server restart, making it ideal for development and testing.

@@ -8,6 +8,8 @@ const swaggerSpec = require('../swagger');
 // Initialize express app
 const app = express();
 
+console.log('TaskVerse API starting with in-memory storage...');
+
 // CORS configuration
 app.use(cors({
   origin: '*',
