@@ -9,17 +9,17 @@
 [32m[nodemon] starting `node src/server.js`[39m
 Server running at http://0.0.0.0:3001
 Connected to PostgreSQL database
-Registration error: error: column "name" of relation "users" does not exist
+Get tasks error: error: column t.column_id does not exist
     at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async AuthService.register (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/authService.js:33:20)
-    at async register (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/authController.js:25:22) {
-  length: 122,
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
   severity: 'ERROR',
   code: '42703',
   detail: undefined,
   hint: undefined,
-  position: '42',
+  position: '334',
   internalPosition: undefined,
   internalQuery: undefined,
   where: undefined,
@@ -28,50 +28,247 @@ Registration error: error: column "name" of relation "users" does not exist
   column: undefined,
   dataType: undefined,
   constraint: undefined,
-  file: 'parse_target.c',
-  line: '1066',
-  routine: 'checkInsertTargets'
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
 }
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
-[32m[nodemon] restarting due to changes...[39m
-[32m[nodemon] starting `node src/server.js`[39m
-Server running at http://0.0.0.0:3001
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
+Connected to PostgreSQL database
+Get tasks error: error: column t.column_id does not exist
+    at /home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/node_modules/pg-pool/index.js:45:11
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async TaskService.getAllTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/services/taskService.js:10:25)
+    at async getTasks (/home/kavia/workspace/code-generation/taskflow-97361-d3f29298/backend_api/src/controllers/taskController.js:13:21) {
+  length: 110,
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '334',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_relation.c',
+  line: '3722',
+  routine: 'errorMissingColumn'
+}
