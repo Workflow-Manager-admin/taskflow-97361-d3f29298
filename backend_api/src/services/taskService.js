@@ -3,11 +3,10 @@ const pool = require('../config/database');
 class TaskService {
   // PUBLIC_INTERFACE
   /**
-   * Get all tasks for a user organized by columns
-   * @param {number} userId - User ID
+   * Get all tasks organized by columns
    * @returns {Object} Tasks organized by columns
    */
-  async getUserTasks(userId) {
+  async getAllTasks() {
     const tasksResult = await pool.query(`
       SELECT 
         t.id,
@@ -24,16 +23,14 @@ class TaskService {
         c.position as column_position
       FROM tasks t
       JOIN columns c ON t.column_id = c.id
-      WHERE t.user_id = $1
       ORDER BY c.position, t.position
-    `, [userId]);
+    `);
 
     const columnsResult = await pool.query(`
       SELECT id, name, position, created_at
       FROM columns
-      WHERE user_id = $1
       ORDER BY position
-    `, [userId]);
+    `);
 
     const columns = columnsResult.rows.map(col => ({
       ...col,
@@ -58,35 +55,34 @@ class TaskService {
   /**
    * Create a new task
    * @param {Object} taskData - Task creation data
-   * @param {number} userId - User ID
    * @returns {Object} Created task data
    */
-  async createTask(taskData, userId) {
+  async createTask(taskData) {
     const { title, description, column_id, priority, due_date } = taskData;
 
-    // Verify column belongs to user
+    // Verify column exists
     const columnCheck = await pool.query(
-      'SELECT id FROM columns WHERE id = $1 AND user_id = $2',
-      [column_id, userId]
+      'SELECT id FROM columns WHERE id = $1',
+      [column_id]
     );
 
     if (columnCheck.rows.length === 0) {
-      throw new Error('Column not found or access denied');
+      throw new Error('Column not found');
     }
 
     // Get next position in column
     const positionResult = await pool.query(
-      'SELECT COALESCE(MAX(position), -1) + 1 as next_position FROM tasks WHERE column_id = $1 AND user_id = $2',
-      [column_id, userId]
+      'SELECT COALESCE(MAX(position), -1) + 1 as next_position FROM tasks WHERE column_id = $1',
+      [column_id]
     );
 
     const position = positionResult.rows[0].next_position;
 
     const result = await pool.query(`
-      INSERT INTO tasks (title, description, column_id, user_id, priority, due_date, position, created_at, updated_at)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
+      INSERT INTO tasks (title, description, column_id, priority, due_date, position, created_at, updated_at)
+      VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
       RETURNING id, title, description, priority, due_date, completed, position, created_at, updated_at
-    `, [title, description || '', column_id, userId, priority || 'medium', due_date, position]);
+    `, [title, description || '', column_id, priority || 'medium', due_date, position]);
 
     return result.rows[0];
   }
@@ -96,18 +92,17 @@ class TaskService {
    * Update an existing task
    * @param {number} taskId - Task ID
    * @param {Object} updateData - Task update data
-   * @param {number} userId - User ID
    * @returns {Object} Updated task data
    */
-  async updateTask(taskId, updateData, userId) {
-    // Verify task belongs to user
+  async updateTask(taskId, updateData) {
+    // Verify task exists
     const taskCheck = await pool.query(
-      'SELECT id FROM tasks WHERE id = $1 AND user_id = $2',
-      [taskId, userId]
+      'SELECT id FROM tasks WHERE id = $1',
+      [taskId]
     );
 
     if (taskCheck.rows.length === 0) {
-      throw new Error('Task not found or access denied');
+      throw new Error('Task not found');
     }
 
     // Build dynamic update query
@@ -141,12 +136,12 @@ class TaskService {
     }
 
     updateFields.push('updated_at = NOW()');
-    values.push(taskId, userId);
+    values.push(taskId);
 
     const query = `
       UPDATE tasks 
       SET ${updateFields.join(', ')}
-      WHERE id = $${paramCount++} AND user_id = $${paramCount++}
+      WHERE id = $${paramCount++}
       RETURNING id, title, description, priority, due_date, completed, position, created_at, updated_at
     `;
 
@@ -158,17 +153,16 @@ class TaskService {
   /**
    * Delete a task
    * @param {number} taskId - Task ID
-   * @param {number} userId - User ID
    * @returns {boolean} Success status
    */
-  async deleteTask(taskId, userId) {
+  async deleteTask(taskId) {
     const result = await pool.query(
-      'DELETE FROM tasks WHERE id = $1 AND user_id = $2 RETURNING id',
-      [taskId, userId]
+      'DELETE FROM tasks WHERE id = $1 RETURNING id',
+      [taskId]
     );
 
     if (result.rows.length === 0) {
-      throw new Error('Task not found or access denied');
+      throw new Error('Task not found');
     }
 
     return true;
@@ -180,58 +174,57 @@ class TaskService {
    * @param {number} taskId - Task ID
    * @param {number} newColumnId - New column ID
    * @param {number} newPosition - New position in column
-   * @param {number} userId - User ID
    * @returns {Object} Updated task data
    */
-  async updateTaskOrder(taskId, newColumnId, newPosition, userId) {
+  async updateTaskOrder(taskId, newColumnId, newPosition) {
     const client = await pool.connect();
     
     try {
       await client.query('BEGIN');
 
-      // Verify task belongs to user
+      // Verify task exists
       const taskCheck = await client.query(
-        'SELECT id, column_id FROM tasks WHERE id = $1 AND user_id = $2',
-        [taskId, userId]
+        'SELECT id, column_id FROM tasks WHERE id = $1',
+        [taskId]
       );
 
       if (taskCheck.rows.length === 0) {
-        throw new Error('Task not found or access denied');
+        throw new Error('Task not found');
       }
 
       const oldColumnId = taskCheck.rows[0].column_id;
 
-      // Verify new column belongs to user
+      // Verify new column exists
       const columnCheck = await client.query(
-        'SELECT id FROM columns WHERE id = $1 AND user_id = $2',
-        [newColumnId, userId]
+        'SELECT id FROM columns WHERE id = $1',
+        [newColumnId]
       );
 
       if (columnCheck.rows.length === 0) {
-        throw new Error('Column not found or access denied');
+        throw new Error('Column not found');
       }
 
       // Update positions in old column (if different from new column)
       if (oldColumnId !== newColumnId) {
         await client.query(
-          'UPDATE tasks SET position = position - 1 WHERE column_id = $1 AND user_id = $2 AND position > (SELECT position FROM tasks WHERE id = $3)',
-          [oldColumnId, userId, taskId]
+          'UPDATE tasks SET position = position - 1 WHERE column_id = $1 AND position > (SELECT position FROM tasks WHERE id = $2)',
+          [oldColumnId, taskId]
         );
       }
 
       // Make space in new column
       await client.query(
-        'UPDATE tasks SET position = position + 1 WHERE column_id = $1 AND user_id = $2 AND position >= $3',
-        [newColumnId, userId, newPosition]
+        'UPDATE tasks SET position = position + 1 WHERE column_id = $1 AND position >= $2',
+        [newColumnId, newPosition]
       );
 
       // Update the task
       const result = await client.query(`
         UPDATE tasks 
         SET column_id = $1, position = $2, updated_at = NOW()
-        WHERE id = $3 AND user_id = $4
+        WHERE id = $3
         RETURNING id, title, description, priority, due_date, completed, position, created_at, updated_at
-      `, [newColumnId, newPosition, taskId, userId]);
+      `, [newColumnId, newPosition, taskId]);
 
       await client.query('COMMIT');
       return result.rows[0];
@@ -245,11 +238,10 @@ class TaskService {
 
   // PUBLIC_INTERFACE
   /**
-   * Initialize default columns for a new user
-   * @param {number} userId - User ID
+   * Initialize default columns (public access)
    * @returns {Array} Created columns
    */
-  async initializeUserColumns(userId) {
+  async initializeDefaultColumns() {
     const defaultColumns = [
       { name: 'To Do', position: 0 },
       { name: 'In Progress', position: 1 },
@@ -259,8 +251,8 @@ class TaskService {
     const results = [];
     for (const column of defaultColumns) {
       const result = await pool.query(
-        'INSERT INTO columns (name, position, user_id, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id, name, position, created_at',
-        [column.name, column.position, userId]
+        'INSERT INTO columns (name, position, created_at) VALUES ($1, $2, NOW()) RETURNING id, name, position, created_at',
+        [column.name, column.position]
       );
       results.push(result.rows[0]);
     }

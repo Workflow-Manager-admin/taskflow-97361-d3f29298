@@ -1,11 +1,7 @@
 const express = require('express');
 const taskController = require('../controllers/taskController');
-const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
-
-// Apply authentication middleware to all task routes
-router.use(authenticateToken);
 
 /**
  * @swagger
@@ -86,10 +82,8 @@ router.use(authenticateToken);
  * /api/tasks:
  *   get:
  *     summary: Get all tasks
- *     description: Retrieve all tasks for the authenticated user organized by columns
+ *     description: Retrieve all tasks organized by columns
  *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Tasks retrieved successfully
@@ -97,12 +91,6 @@ router.use(authenticateToken);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/TasksResponse'
- *       401:
- *         description: Unauthorized - Invalid or missing token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *       500:
  *         description: Internal server error
  *         content:
@@ -119,8 +107,6 @@ router.get('/', taskController.getTasks);
  *     summary: Create a new task
  *     description: Create a new task in the specified column
  *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -182,12 +168,6 @@ router.get('/', taskController.getTasks);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Unauthorized - Invalid or missing token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  */
 router.post('/', taskController.createTask);
 
@@ -198,8 +178,6 @@ router.post('/', taskController.createTask);
  *     summary: Update a task
  *     description: Update an existing task's properties
  *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -264,12 +242,6 @@ router.post('/', taskController.createTask);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Unauthorized - Invalid or missing token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Task not found
  *         content:
@@ -286,8 +258,6 @@ router.put('/:id', taskController.updateTask);
  *     summary: Delete a task
  *     description: Delete an existing task
  *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -314,12 +284,6 @@ router.put('/:id', taskController.updateTask);
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Unauthorized - Invalid or missing token
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Task not found
  *         content:
@@ -336,8 +300,6 @@ router.delete('/:id', taskController.deleteTask);
  *     summary: Update task order
  *     description: Update task position and column for drag-and-drop functionality
  *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -382,12 +344,6 @@ router.delete('/:id', taskController.deleteTask);
  *                       $ref: '#/components/schemas/Task'
  *       400:
  *         description: Validation error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       401:
- *         description: Unauthorized - Invalid or missing token
  *         content:
  *           application/json:
  *             schema:

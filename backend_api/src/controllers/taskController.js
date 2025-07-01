@@ -4,13 +4,13 @@ const schemas = require('../validation/schemas');
 class TaskController {
   // PUBLIC_INTERFACE
   /**
-   * Get all tasks for the authenticated user
+   * Get all tasks
    * @param {Object} req - Express request object
    * @param {Object} res - Express response object
    */
   async getTasks(req, res) {
     try {
-      const tasks = await taskService.getUserTasks(req.user.id);
+      const tasks = await taskService.getAllTasks();
       
       res.status(200).json({
         status: 'success',
@@ -43,7 +43,7 @@ class TaskController {
         });
       }
 
-      const task = await taskService.createTask(value, req.user.id);
+      const task = await taskService.createTask(value);
       
       res.status(201).json({
         status: 'success',
@@ -85,7 +85,7 @@ class TaskController {
         });
       }
 
-      const task = await taskService.updateTask(taskId, value, req.user.id);
+      const task = await taskService.updateTask(taskId, value);
       
       res.status(200).json({
         status: 'success',
@@ -118,7 +118,7 @@ class TaskController {
         });
       }
 
-      await taskService.deleteTask(taskId, req.user.id);
+      await taskService.deleteTask(taskId);
       
       res.status(200).json({
         status: 'success',
@@ -153,7 +153,7 @@ class TaskController {
       }
 
       const { taskId, newColumnId, newPosition } = value;
-      const task = await taskService.updateTaskOrder(taskId, newColumnId, newPosition, req.user.id);
+      const task = await taskService.updateTaskOrder(taskId, newColumnId, newPosition);
       
       res.status(200).json({
         status: 'success',

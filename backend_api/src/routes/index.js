@@ -1,6 +1,5 @@
 const express = require('express');
 const healthController = require('../controllers/health');
-const authRoutes = require('./auth');
 const taskRoutes = require('./tasks');
 
 const router = express.Router();
@@ -36,7 +35,6 @@ const router = express.Router();
 router.get('/', healthController.check.bind(healthController));
 
 // API routes
-router.use('/api', authRoutes);
 router.use('/api/tasks', taskRoutes);
 
 module.exports = router;

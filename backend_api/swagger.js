@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'TaskVerse API',
       version: '1.0.0',
-      description: 'TaskVerse Kanban Board API - A comprehensive REST API for managing personal tasks with a Kanban board interface, featuring user authentication, task management, and drag-and-drop functionality.',
+      description: 'TaskVerse Kanban Board API - A comprehensive REST API for managing tasks with a Kanban board interface, featuring task management and drag-and-drop functionality.',
       contact: {
         name: 'TaskVerse API Support',
         email: 'support@taskverse.com'
@@ -22,10 +22,6 @@ const options = {
       {
         name: 'Health',
         description: 'Health check endpoints'
-      },
-      {
-        name: 'Authentication',
-        description: 'User authentication and authorization'
       },
       {
         name: 'Tasks',
